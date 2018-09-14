@@ -1,3 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
 
+  <head>
+
+    <meta charset='utf-8' />
+    <meta name='viewport' content=initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.48.0/mapbox-gl.js'></script>
+    <script src='./data.js'></script>
+
+    <script src='./data2.js'></script>
+    <script src='./data3.js'></script>
+
+
+
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.48.0/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        body { margin:0; padding:0; float: center; }
+      #map { width: 50%; height: 400px; float: left; }
+      #map2 { width: 50%; height: 400px; margin-left: 50% }
+      #map3 { width: 50%; height: 400px; margin-top: : 50% }
+
+
+       
+    </style>
+
+    <title>Maps</title>
     
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    
+    <link href="css/clean-blog.min.css" rel="stylesheet">
+    <style>
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+</style>
+
+  </head>
+
+  <body>
+
+    <div class="topnav">
+  <a href="intro.html">Introduction</a>
+  <a class="active" href="maps.html">Maps</a>
+  <a href="ref.html">References</a>
+</div>
+    
+    <header class="masthead" style="background-image: url('https://cdn.shopify.com/s/files/1/1394/6561/products/SUPERIOR-PAPER-BACK-PAPER-MINT-GREEN-2.75M-BY-11M_7db45b89-63bd-4a0c-b0ee-a48d42dd6590_1024x1024.jpg?v=1486453285')">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="post-heading">
+              <h1>The Maps</h1>
+              <h2 class="subheading">Luke Lim z5210599</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <article>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+          	<h2 class="section-heading">Comparison of percentages of children born by certain age of parents</h2>
+          	<p>The name of my dataset is 'Number of Children Ever Born by Age of Parent', and it is the data focused on <b>females aged 15 years and over.</b> The equation that I have used for all age groups in QGIS was:</p>
+
+          	<p><b>("2016Census_G24_NSW_SA1_P_(agegroup)_Total" - "2011Census_B24_NSW_SA1_short_P_(agegroup)_Total") / "2011Census_B24_NSW_SA1_short_P_(agegroup)_Total"</b></p>
+
+          	<p>The maps are in order from 20-24 age group to 'over 85' group. The colour represents the raw data of 2016 (more intensity = more children born at the certain region), while the height represents the percentage differences between 2011 and 2016. The tall area may be up to 50% more increase than 2011.</p>
+
+          	<p>So starting from 20-24 age group to those over 85:</p>
+
+          	<div id='map' style='width: 45%; height: 400px; float: left; margin-left: 50px;'></div>
+          	<script>
+mapboxgl.accessToken = 'pk.eyJ1Ijoia2lldmNocmlzIiwiYSI6ImNqbG9nbXR2aDF0cnIzcm4zNHhmMDEwMzIifQ.3XscKFBNmlEMolvAZ0rxMA';
+var map = new mapboxgl.Map({
+    container: 'map',
+
+    style: 'mapbox://styles/kievchris/cjm0hn7oc7azp2star0jl57jw',
+
+    center: [151.004105, -33.813002],
+    zoom: 5,
+    pitch: 45,
+    bearing: -17.6
+});
+
+map.on('load', function() {
+   
+
+    map.addLayer({
+        'id': 'data',
+        'type': 'fill-extrusion',
+        'source': {
+            // GeoJSON Data source used in vector tiles, documented at
+            // https://gist.github.com/ryanbaumann/a7d970386ce59d11c16278b90dde094d
+            'type': 'geojson',
+            'data': data
+            },
+        'paint': {
+            // See the Mapbox Style Specification for details on data expressions.
+            // https://www.mapbox.com/mapbox-gl-js/style-spec/#expressions
+
+            // Get the fill-extrusion-color from the source 'color' property.
+            'fill-extrusion-color': {
+                'property': '20_24yr' ,
+                "stops": [
+                [0, 'white'],
+                [50, 'black']
+                ]
+            },
+
+            // Get fill-extrusion-height from the source 'height' property.
+            'fill-extrusion-height': {
+                'property': 'Difference' ,
+                "stops": [
+                [0, 0],
+                [1, 65535]
+                ]
+            },
+
+            // Get fill-extrusion-base from the source 'base_height' property.
+            //'fill-extrusion-base': ['get', 'base_height'],
+
+            // Make extrusions slightly opaque for see through indoor walls.
+            'fill-extrusion-opacity': 0.8
+        }
+    });
+});
+</script>
+
+<div id='map2' style='width: 45%; height: 400px; margin-left: 50%; '></div>
+<script>
+mapboxgl.accessToken = 'pk.eyJ1Ijoia2lldmNocmlzIiwiYSI6ImNqbG9nbXR2aDF0cnIzcm4zNHhmMDEwMzIifQ.3XscKFBNmlEMolvAZ0rxMA';
+var maptwo = new mapboxgl.Map({
+    container: 'map2',
+
+    style: 'mapbox://styles/kievchris/cjm0hn7oc7azp2star0jl57jw',
+
+    center: [151.004105, -33.813002],
+    zoom: 5,
+    pitch: 45,
+    bearing: -17.6
+});
+
+maptwo.on('load', function() {
+
+    maptwo.addLayer({
+
+        'id': 'data2',
+
+        'type': 'fill-extrusion',
+        'source': {
+            // GeoJSON Data source used in vector tiles, documented at
+            // https://gist.github.com/ryanbaumann/a7d970386ce59d11c16278b90dde094d
+            'type': 'geojson',
+
+            'data': data2
+
+
+            },
+        'paint': {
+            // See the Mapbox Style Specification for details on data expressions.
+            // https://www.mapbox.com/mapbox-gl-js/style-spec/#expressions
+
+            // Get the fill-extrusion-color from the source 'color' property.
+            'fill-extrusion-color': {
+
+                'property': '25_29yr' ,
+                "stops": [
+                [0, 'white'],
+                [50, 'black']
+                ]
+            },
+
+            // Get fill-extrusion-height from the source 'height' property.
+            'fill-extrusion-height': {
+
+                'property': 'Diff25' ,
+                "stops": [
+                [0, 0],
+                [1, 65535]
+                ]
+            },
+
+            // Get fill-extrusion-base from the source 'base_height' property.
+            //'fill-extrusion-base': ['get', 'base_height'],
+
+            // Make extrusions slightly opaque for see through indoor walls.
+            'fill-extrusion-opacity': 0.8
+        }
+    })
+})
+</script>
+
+<div id='map3' style='width: 100%; height: 400px; float: left; margin-left: 50px; margin-top: 50px;'></div>
+<script>
+	mapboxgl.accessToken = 'pk.eyJ1Ijoia2lldmNocmlzIiwiYSI6ImNqbG9nbXR2aDF0cnIzcm4zNHhmMDEwMzIifQ.3XscKFBNmlEMolvAZ0rxMA';
+var mapthree = new mapboxgl.Map({
+    container: 'map3',
+
+    style: 'mapbox://styles/kievchris/cjm0hn7oc7azp2star0jl57jw',
+
+    center: [151.004105, -33.813002],
+    zoom: 5,
+    pitch: 45,
+    bearing: -17.6
+});
+
+mapthree.on('load', function() {
+
+    mapthree.addLayer({
+        'id': 'data3',
+        'type': 'fill-extrusion',
+        'source': {
+            // GeoJSON Data source used in vector tiles, documented at
+            // https://gist.github.com/ryanbaumann/a7d970386ce59d11c16278b90dde094d
+            'type': 'geojson',
+            'data': data3
+            },
+        'paint': {
+            // See the Mapbox Style Specification for details on data expressions.
+            // https://www.mapbox.com/mapbox-gl-js/style-spec/#expressions
+
+            // Get the fill-extrusion-color from the source 'color' property.
+            'fill-extrusion-color': {
+                'property': '85ov' ,
+                "stops": [
+                [0, 'white'],
+                [50, 'black']
+                ]
+            },
+
+            // Get fill-extrusion-height from the source 'height' property.
+            'fill-extrusion-height': {
+                'property': 'Diff85' ,
+                "stops": [
+                [0, 0],
+                [1, 65535]
+                ]
+            },
+
+            // Get fill-extrusion-base from the source 'base_height' property.
+            //'fill-extrusion-base': ['get', 'base_height'],
+
+            // Make extrusions slightly opaque for see through indoor walls.
+            'fill-extrusion-opacity': 0.8
+        }
+    })
+    });
+
+
+ 
+</script>
+<p align="center">Now let's analyse the data</p>
+<p align="center">Starting from the first map, you could see a big black pillar on the hunter valley area, which means that there are lots of children generally born in that area by the females whose age are from 20 to 24. These black columns could be seen in other areas such as Sydney, Wollongong, Wagga Wagga, etc. Since Sydney is one of the places with the most population in Australia, as well as high density of people working there, it is somewhat obvious that lots of children are born near the urban area. A lot of heights from different areas are almost identical. This means that the percentage growth of children born from the 20-24 years old females are over 100% in most areas. On the other hand, places like Broken Hill has almost no children born, and no percentage growth.</p>
+
+<p align="center">The second map is overall very similar to the first map, except for some areas like Tibooburra where they have almost zero females who are 25-29 years old. It is most likely so because Tibooburra or Broken Hill are the furthest area in NSW from the urban area, and most 25-29 years old females live near the city for work. One big thing to notice is that Mildura and Wentworth have a bigger increase of percentage compared to the first map (even though Mildura is in Victoria state). The statics showed about 20% increase of population in 2016. However, the dominant age structure is 30-34 years old female.</p>
+
+<p align="center">Then what about some 'extreme' age groups like those over 85 years old? If you take a look at the third map, there are not much columns to begin with, compared to the first or second map (probably because they are too old to give a birth, or have deceased before 85). It is still notable that they are usually focused on urban area, even if they retire, because they usually just prefer living where they used to live. This map shows that there has been some big percentage increase in Bourke, which is very doubtful, because this town has made the lowest population growth rate in NSW in 2007. Either old people have started to enjoy staying in Bourke, or it's a data error. It could be since Bourke is a quiet town compared to places like Sydney, where the urban area is almost never quiet, and the old people who prefer peace over noises might move to places somewhere like Bourke and give birth to children.</p>
+
+<h2 class="section-heading">The Latte Line</h2>
+<p>Now let's take a look at the relationship between the data and latte line. A latte line is an imaginary boundary which splits Sydney to two, and it runs north-west from the airport through Parramatta. The idea is that above the latte line is where wealthy (or stable in terms of finance) people live, while below the line is not. </p>
+
+<img src="https://raw.githubusercontent.com/LukeLim1/qgismap/master/latte1.JPG" alt="photo missing" width="300" height="300">
+<img src="https://raw.githubusercontent.com/LukeLim1/qgismap/master/latte2.JPG" alt="photo missing" width="300" height="300">
+<img src="https://raw.githubusercontent.com/LukeLim1/qgismap/master/latte3.JPG" alt="photo missing" width="300" height="300">
+
+<p>I have drawn the latte lines and tried to compare the maps for relationships, but I couldn't find much difference on either side of the lines. It's probably because having a children is not really relevant to finance, as long as they can raise them properly (However, it is indeed easier for the parents to raise their children with enough finance).</p>
+
+<p align="center">As for the conclusion,<ol>
+	<li>The children born in NSW is increasing overall no matter what the age group of their mother is</li>
+	<li>The females over 85 years old tend to have fewer data compared to 20-24 and 25-29 groups. This is due to them either not having children when old or being deceased before 85.</li>
+	<li>The younger age groups tend to live near city while the older age groups may live far from urban area, but not 100%</li>
+	<li>The latte line doesn't really have much relationship with my data</li></ol></p>
+</div></div></div></article></body></html>
