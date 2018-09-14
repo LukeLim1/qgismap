@@ -6,12 +6,12 @@
     <meta name='viewport' content=initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.48.0/mapbox-gl.js'></script>
     <script src='./data.js'></script>
-<<<<<<< HEAD
+
     <script src='./data2.js'></script>
     <script src='./data3.js'></script>
-=======
 
->>>>>>> 5d777fe0e26d1e23a58f88ae634092dfed8db656
+
+
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.48.0/mapbox-gl.css' rel='stylesheet' />
     <style>
         body { margin:0; padding:0; float: center; }
@@ -59,11 +59,11 @@
 </head>
 <body>
 
-<<<<<<< HEAD
+
 <nav id='menu'></nav>
-=======
+
 <div id='menu'></div>
->>>>>>> 5d777fe0e26d1e23a58f88ae634092dfed8db656
+
 <div id='map'></div>
 
 <script>
@@ -74,14 +74,14 @@ var map = new mapboxgl.Map({
     style: 'mapbox://styles/kievchris/cjm0hn7oc7azp2star0jl57jw',
 =======
     style: 'mapbox://styles/mapbox/streets-v9',
->>>>>>> 5d777fe0e26d1e23a58f88ae634092dfed8db656
+
     center: [151.004105, -33.813002],
     zoom: 5,
     pitch: 45,
     bearing: -17.6
 });
 
-map.on('load', function() {
+map.on('load', function() 
    
 
  map.addLayer({
@@ -131,7 +131,7 @@ map.on('load', function() {
         'id': 'data2',
 =======
         'id': 'data',
->>>>>>> 5d777fe0e26d1e23a58f88ae634092dfed8db656
+
         'type': 'fill-extrusion',
         'source': {
             // GeoJSON Data source used in vector tiles, documented at
@@ -139,9 +139,9 @@ map.on('load', function() {
             'type': 'geojson',
 <<<<<<< HEAD
             'data': data2
-=======
+
             'data': data
->>>>>>> 5d777fe0e26d1e23a58f88ae634092dfed8db656
+
             },
         'paint': {
             // See the Mapbox Style Specification for details on data expressions.
@@ -154,22 +154,22 @@ map.on('load', function() {
                 "stops": [
                 [0, 'white'],
                 [50, 'blue']
-=======
+
                 'property': '20_24yr' ,
                 "stops": [
                 [-1, 'white'],
                 [5, 'orange']
->>>>>>> 5d777fe0e26d1e23a58f88ae634092dfed8db656
+
                 ]
             },
 
             // Get fill-extrusion-height from the source 'height' property.
             'fill-extrusion-height': {
-<<<<<<< HEAD
+
                 'property': '25_29yr' ,
 =======
                 'property': 'Difference' ,
->>>>>>> 5d777fe0e26d1e23a58f88ae634092dfed8db656
+
                 "stops": [
                 [0.2, 0],
                 [1, 65535]
